@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Hub & World Clock Dashboard</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons for clean Notion-like UI -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Inter Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            notion: {
+              bgDark: '#191919',
+              cardDark: '#202020',
+              borderDark: '#2f2f2f',
+              textDark: '#d3d3d3',
+              bgLight: '#fcfbf9',
+              cardLight: '#ffffff',
+              borderLight: '#e9e9e8',
+              textLight: '#37352f',
+              accent: '#2eaadc',
+              accentHover: '#0081b8',
+              georgiaRed: '#e03e3e',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbar for Notion styling */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(128, 128, 128, 0.3);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(128, 128, 128, 0.5);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      user-select: none;
+    }
+    .clock-glow-georgia {
+      box-shadow: 0 0 15px rgba(224, 62, 62, 0.15);
+    }
+    .dark .clock-glow-georgia {
+      box-shadow: 0 0 20px rgba(224, 62, 62, 0.25);
+    }
+  </style>
+</head>
+
+<body class="bg-notion-bgLight dark:bg-notion-bgDark text-notion-textLight dark:text-notion-textDark transition-colors duration-200 p-3 sm:p-5 min-h-screen">
+
+  <div class="max-w-7xl mx-auto space-y-4">
+    
+    <!-- HEADER BAR WITH CONTROLS -->
+    <header class="flex flex-wrap items-center justify-between gap-3 px-3 py-2 bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark shadow-sm">
+      <div class="flex items-center space-x-2">
+        <span class="text-xl">🦸</span>
+        <h1 class="text-base sm:text-lg font-bold tracking-tight">Agent Hub & World Clock</h1>
+        <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-700 dark:bg-red-950/80 dark:text-red-300 border border-red-200 dark:border-red-900">
+          Support Operations
+        </span>
+      </div>
+
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <!-- Seconds Toggle -->
+        <label class="flex items-center cursor-pointer text-xs font-medium space-x-1.5 bg-neutral-100 dark:bg-neutral-800 px-2.5 py-1 rounded-lg border border-notion-borderLight dark:border-notion-borderDark">
+          <input type="checkbox" id="toggleSeconds" class="sr-only peer" checked>
+          <div class="w-7 h-4 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:peer-checked:bg-blue-600 relative"></div>
+          <span class="text-gray-600 dark:text-gray-300 text-[11px]">Show Seconds</span>
+        </label>
+
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" class="p-1.5 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs flex items-center gap-1.5 transition">
+          <i class="fa-solid fa-moon dark:hidden text-gray-600"></i>
+          <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+          <span class="hidden sm:inline text-[11px] font-medium" id="themeLabel">Dark</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- SECTION 1: WORLD CLOCK STRIP (WIDE HORIZONTAL WIDGET) -->
+    <section class="bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark p-3 sm:p-4 shadow-sm">
+      <div class="flex items-center justify-between mb-3 px-1">
+        <div class="flex items-center space-x-2">
+          <i class="fa-solid fa-globe text-blue-500 text-sm"></i>
+          <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+            Global Time Sync — Tbilisi vs. US Timezones
+          </h2>
+        </div>
+        <div class="text-[11px] text-gray-400 dark:text-gray-500 font-mono flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span> Live DST Sync
+        </div>
+      </div>
+
+      <!-- Grid of 5 Timezone Clocks -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+        
+        <!-- 1. GEORGIA - TBILISI (HOME ANCHOR) -->
+        <div class="relative overflow-hidden bg-gradient-to-b from-red-500/10 via-transparent to-transparent dark:from-red-950/20 rounded-xl p-3 border-2 border-red-500/40 dark:border-red-500/50 clock-glow-georgia flex flex-col justify-between">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-base">🇬🇪</span>
+                <span class="font-bold text-xs tracking-wide text-red-600 dark:text-red-400 uppercase">GEORGIA</span>
+              </div>
+              <p class="text-[11px] font-semibold text-neutral-600 dark:text-neutral-300">Tbilisi</p>
+            </div>
+            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-500 text-white tracking-wider">HOME</span>
+          </div>
+          <div class="my-2 text-center">
+            <div id="clock-georgia" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-900 dark:text-white">
+              --:--:--
+            </div>
+          </div>
+          <div class="pt-2 border-t border-red-200/50 dark:border-red-900/40 flex items-center justify-between text-[11px]">
+            <span id="date-georgia" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
+            <span class="font-mono text-[10px] font-bold text-red-600 dark:text-red-400">UTC+4</span>
+          </div>
+        </div>
+
+        <!-- 2. NEW YORK (EST/EDT) -->
+        <div class="bg-neutral-50 dark:bg-neutral-900/60 rounded-xl p-3 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-base">🇺🇸</span>
+                <span class="font-bold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">NEW YORK</span>
+              </div>
+              <p class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">Eastern Time</p>
+            </div>
+            <span id="offset-ny" class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+              --h
+            </span>
+          </div>
+          <div class="my-2 text-center">
+            <div id="clock-ny" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
+              --:--:--
+            </div>
+          </div>
+          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-[11px]">
+            <span id="date-ny" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
+            <span id="code-ny" class="font-mono text-[10px] text-neutral-400">ET</span>
+          </div>
+        </div>
+
+        <!-- 3. CHICAGO (CST/CDT) -->
+        <div class="bg-neutral-50 dark:bg-neutral-900/60 rounded-xl p-3 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-base">🇺🇸</span>
+                <span class="font-bold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">CHICAGO</span>
+              </div>
+              <p class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">Central Time</p>
+            </div>
+            <span id="offset-chicago" class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+              --h
+            </span>
+          </div>
+          <div class="my-2 text-center">
+            <div id="clock-chicago" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
+              --:--:--
+            </div>
+          </div>
+          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-[11px]">
+            <span id="date-chicago" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
+            <span id="code-chicago" class="font-mono text-[10px] text-neutral-400">CT</span>
+          </div>
+        </div>
+
+        <!-- 4. DENVER (MST/MDT) -->
+        <div class="bg-neutral-50 dark:bg-neutral-900/60 rounded-xl p-3 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-base">🇺🇸</span>
+                <span class="font-bold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">DENVER</span>
+              </div>
+              <p class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">Mountain Time</p>
+            </div>
+            <span id="offset-denver" class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+              --h
+            </span>
+          </div>
+          <div class="my-2 text-center">
+            <div id="clock-denver" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
+              --:--:--
+            </div>
+          </div>
+          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-[11px]">
+            <span id="date-denver" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
+            <span id="code-denver" class="font-mono text-[10px] text-neutral-400">MT</span>
+          </div>
+        </div>
+
+        <!-- 5. LOS ANGELES (PST/PDT) -->
+        <div class="bg-neutral-50 dark:bg-neutral-900/60 rounded-xl p-3 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition">
+          <div class="flex items-start justify-between">
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="text-base">🇺🇸</span>
+                <span class="font-bold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">LOS ANGELES</span>
+              </div>
+              <p class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">Pacific Time</p>
+            </div>
+            <span id="offset-la" class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+              --h
+            </span>
+          </div>
+          <div class="my-2 text-center">
+            <div id="clock-la" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
+              --:--:--
+            </div>
+          </div>
+          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-[11px]">
+            <span id="date-la" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
+            <span id="code-la" class="font-mono text-[10px] text-neutral-400">PT</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SECTION 2: DUAL COLUMN - CALENDAR & AGENT WORKSPACE HUB -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+      <!-- LEFT COLUMN: MINI CALENDAR & SHIFT SUMMARY (4 COLS) -->
+      <div class="lg:col-span-4 bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark p-4 shadow-sm flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center space-x-2">
+              <i class="fa-regular fa-calendar-days text-red-500"></i>
+              <h3 id="calendarMonthYear" class="text-xs font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-200">
+                September 2026
+              </h3>
+            </div>
+            <div class="flex items-center space-x-1">
+              <button id="prevMonthBtn" class="p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white transition">
+                <i class="fa-solid fa-chevron-left text-xs"></i>
+              </button>
+              <button id="todayBtn" class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 transition">
+                Today
+              </button>
+              <button id="nextMonthBtn" class="p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white transition">
+                <i class="fa-solid fa-chevron-right text-xs"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Calendar Grid Header -->
+          <div class="grid grid-cols-7 text-center text-[10px] font-bold text-gray-400 mb-1">
+            <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span class="text-red-400">Sa</span><span class="text-red-400">Su</span>
+          </div>
+
+          <!-- Calendar Days Grid -->
+          <div id="calendarDays" class="grid grid-cols-7 text-center text-xs gap-y-1">
+            <!-- JS populated -->
+          </div>
+        </div>
+
+        <!-- Shift & Day Info Footer -->
+        <div class="mt-4 pt-3 border-t border-notion-borderLight dark:border-notion-borderDark bg-neutral-50 dark:bg-neutral-900/40 p-2.5 rounded-lg text-xs space-y-1">
+          <div class="flex justify-between items-center text-[11px]">
+            <span class="text-neutral-500">Current Week:</span>
+            <span id="weekNumberDisplay" class="font-mono font-semibold text-blue-600 dark:text-blue-400">Week --</span>
+          </div>
+          <div class="flex justify-between items-center text-[11px]">
+            <span class="text-neutral-500">Tbilisi Local Day:</span>
+            <span id="tbilisiDayDisplay" class="font-medium text-neutral-800 dark:text-neutral-200">--</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: AGENT WORKSPACE NAV & QUICK TOOLS (8 COLS) -->
+      <div class="lg:col-span-8 space-y-4">
+
+        <!-- WORKSPACE CARDS GRID -->
+        <div class="bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark p-4 shadow-sm">
+          <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-book-bookmark text-amber-500"></i> Support Knowledge Base & Links
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+
+            <!-- Card 1: Updates & Procedures -->
+            <div class="p-3 bg-neutral-50 dark:bg-neutral-900/50 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:border-blue-400 dark:hover:border-blue-500/50 transition">
+              <div class="flex items-center space-x-2 text-xs font-semibold mb-1">
+                <span class="text-amber-500">📌</span>
+                <span class="text-neutral-800 dark:text-neutral-200">Updates & Procedures — MG</span>
+              </div>
+              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 pl-6">
+                Important Announcements & team notifications.
+              </p>
+            </div>
+
+            <!-- Card 2: Passwords, QA, Telegram -->
+            <div class="p-3 bg-neutral-50 dark:bg-neutral-900/50 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:border-blue-400 dark:hover:border-blue-500/50 transition">
+              <div class="flex items-center space-x-2 text-xs font-semibold mb-1">
+                <span class="text-blue-500">🔑</span>
+                <span class="text-neutral-800 dark:text-neutral-200">Access & Channels</span>
+              </div>
+              <div class="flex flex-wrap gap-1.5 pl-6 pt-1">
+                <span class="text-[10px] px-2 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 font-medium">User & Passwords</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 font-medium">Q&A</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-950/80 text-sky-700 dark:text-sky-300 font-medium"><i class="fa-brands fa-telegram mr-1"></i>Telegram</span>
+              </div>
+            </div>
+
+            <!-- Card 3: Quality & Etiquette -->
+            <div class="p-3 bg-neutral-50 dark:bg-neutral-900/50 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:border-blue-400 dark:hover:border-blue-500/50 transition">
+              <div class="flex items-center space-x-2 text-xs font-semibold mb-1">
+                <span class="text-emerald-500">💡</span>
+                <span class="text-neutral-800 dark:text-neutral-200">Soft Skills & Quality</span>
+              </div>
+              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 pl-6">
+                The Power of Soft Skills • Chat Quality Aspects • Workstation Etiquette
+              </p>
+            </div>
+
+            <!-- Card 4: SOP / Rules & Back-End Admin -->
+            <div class="p-3 bg-neutral-50 dark:bg-neutral-900/50 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:border-blue-400 dark:hover:border-blue-500/50 transition">
+              <div class="flex items-center space-x-2 text-xs font-semibold mb-1">
+                <span class="text-purple-500">⚙️</span>
+                <span class="text-neutral-800 dark:text-neutral-200">SOP & Admin Systems</span>
+              </div>
+              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 pl-6">
+                KB-MC-PR Rules • Management Platform System Guide
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- QUICK TRANSLATIONS & AGENT TOOLS STRIP -->
+        <div class="bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark p-3 shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-screwdriver-wrench text-indigo-500"></i> Quick Agent Tools
+            </h4>
+            <span class="text-[10px] text-neutral-400">One-click external links</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            
+            <!-- Tool 1: DeepL -->
+            <a href="https://www.deepl.com/translator" target="_blank" rel="noopener noreferrer" 
+               class="flex items-center justify-between p-2 rounded-lg bg-neutral-50 dark:bg-neutral-900/70 border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-xs group">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-language text-blue-500"></i>
+                <span class="font-medium">DeepL Translator</span>
+              </div>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-blue-500"></i>
+            </a>
+
+            <!-- Tool 2: OCR Extract Text -->
+            <a href="https://brandfolder.com/workbench/extract-text-from-image" target="_blank" rel="noopener noreferrer"
+               class="flex items-center justify-between p-2 rounded-lg bg-neutral-50 dark:bg-neutral-900/70 border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-xs group">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-file-lines text-emerald-500"></i>
+                <span class="font-medium">Extract Image Text</span>
+              </div>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-500"></i>
+            </a>
+
+            <!-- Tool 3: Immersive Translate -->
+            <a href="https://immersive-translate.com/" target="_blank" rel="noopener noreferrer"
+               class="flex items-center justify-between p-2 rounded-lg bg-neutral-50 dark:bg-neutral-900/70 border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-xs group">
+              <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-globe text-purple-500"></i>
+                <span class="font-medium">Immersive Translate</span>
+              </div>
+              <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-purple-500"></i>
+            </a>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Configured IANA Time zones
+    const LOCATIONS = [
+      { id: 'georgia', zone: 'Asia/Tbilisi', label: 'GEORGIA', name: 'Tbilisi' },
+      { id: 'ny', zone: 'America/New_York', label: 'NEW YORK', name: 'New York' },
+      { id: 'chicago', zone: 'America/Chicago', label: 'CHICAGO', name: 'Chicago' },
+      { id: 'denver', zone: 'America/Denver', label: 'DENVER', name: 'Denver' },
+      { id: 'la', zone: 'America/Los_Angeles', label: 'LOS ANGELES', name: 'Los Angeles' }
+    ];
+
+    let showSeconds = true;
+    let currentDateObj = new Date(); // Anchor date for calendar
+
+    function updateClocks() {
+      const now = new Date();
+
+      // Get Tbilisi timestamp in ms to calculate exact relative offset
+      const tbilisiDateStr = now.toLocaleString("en-US", { timeZone: "Asia/Tbilisi" });
+      const tbilisiTime = new Date(tbilisiDateStr).getTime();
+
+      LOCATIONS.forEach(loc => {
+        try {
+          // Format Time (Strict 24-hour HH:MM or HH:MM:SS)
+          const timeOptions = {
+            timeZone: loc.zone,
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit',
+            ...(showSeconds ? { second: '2-digit' } : {})
+          };
+          const timeFormatter = new Intl.DateTimeFormat('en-GB', timeOptions);
+          const formattedTime = timeFormatter.format(now);
+
+          // Format Date
+          const dateOptions = {
+            timeZone: loc.zone,
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric'
+          };
+          const dateFormatter = new Intl.DateTimeFormat('en-US', dateOptions);
+          const formattedDate = dateFormatter.format(now);
+
+          // Update Time & Date DOM elements
+          const clockElem = document.getElementById(`clock-${loc.id}`);
+          const dateElem = document.getElementById(`date-${loc.id}`);
+
+          if (clockElem) clockElem.textContent = formattedTime;
+          if (dateElem) dateElem.textContent = formattedDate;
+
+          // Calculate offset relative to Tbilisi for non-home locations
+          if (loc.id !== 'georgia') {
+            const locDateStr = now.toLocaleString("en-US", { timeZone: loc.zone });
+            const locTime = new Date(locDateStr).getTime();
+            const diffHours = Math.round((locTime - tbilisiTime) / (1000 * 60 * 60));
+            
+            const offsetElem = document.getElementById(`offset-${loc.id}`);
+            if (offsetElem) {
+              offsetElem.textContent = `${diffHours > 0 ? '+' : ''}${diffHours}h`;
+            }
+
+            // Get timezone abbreviation (EST/EDT, CST/CDT etc)
+            const codeElem = document.getElementById(`code-${loc.id}`);
+            if (codeElem) {
+              const codeFormatter = new Intl.DateTimeFormat('en-US', { timeZone: loc.zone, timeZoneName: 'short' });
+              const parts = codeFormatter.formatToParts(now);
+              const tzPart = parts.find(p => p.type === 'timeZoneName');
+              if (tzPart) codeElem.textContent = tzPart.value;
+            }
+          }
+        } catch (e) {
+          console.error(`Error updating clock for ${loc.zone}`, e);
+        }
+      });
+    }
+
+    function renderCalendar(date) {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+
+      // Month name
+      const monthNames = ["January", "February", "March", "April", "May", "June", 
+                          "July", "August", "September", "October", "November", "December"];
+      document.getElementById('calendarMonthYear').textContent = `${monthNames[month]} ${year}`;
+
+      const firstDayOfMonth = new Date(year, month, 1);
+      const lastDayOfMonth = new Date(year, month + 1, 0);
+
+      // Adjust for Monday start (0: Mon, 6: Sun)
+      let startDay = firstDayOfMonth.getDay() - 1;
+      if (startDay === -1) startDay = 6;
+
+      const daysInMonth = lastDayOfMonth.getDate();
+      const prevMonthLastDay = new Date(year, month, 0).getDate();
+
+      const calendarDaysContainer = document.getElementById('calendarDays');
+      calendarDaysContainer.innerHTML = '';
+
+      const today = new Date();
+      const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+
+      // 1. Fill previous month's trailing days
+      for (let i = startDay - 1; i >= 0; i--) {
+        const dayDiv = document.createElement('div');
+        dayDiv.className = 'py-1 text-gray-300 dark:text-gray-700 font-normal';
+        dayDiv.textContent = prevMonthLastDay - i;
+        calendarDaysContainer.appendChild(dayDiv);
+      }
+
+      // 2. Fill current month's days
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayDiv = document.createElement('div');
+        const isToday = isCurrentMonth && today.getDate() === day;
+
+        if (isToday) {
+          dayDiv.className = 'py-1 font-bold rounded-full bg-red-500 text-white shadow-sm';
+        } else {
+          dayDiv.className = 'py-1 font-medium hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded transition text-neutral-700 dark:text-neutral-300';
+        }
+        dayDiv.textContent = day;
+        calendarDaysContainer.appendChild(dayDiv);
+      }
+
+      // Calculate Week Number & Local Tbilisi Day Display
+      const weekNum = getWeekNumber(date);
+      document.getElementById('weekNumberDisplay').textContent = `Week ${weekNum}`;
+      
+      const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'Asia/Tbilisi' }).format(today);
+      document.getElementById('tbilisiDayDisplay').textContent = `${dayName}, ${today.getDate()} ${monthNames[today.getMonth()]}`;
+    }
+
+    function getWeekNumber(d) {
+      const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      const dayNum = date.getUTCDay() || 7;
+      date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+      const yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
+      return Math.ceil((((date - yearStart) / 86400000) + 1)/7);
+    }
+
+    function setupEventListeners() {
+      // Seconds Toggle
+      const toggleSecondsElem = document.getElementById('toggleSeconds');
+      toggleSecondsElem.addEventListener('change', (e) => {
+        showSeconds = e.target.checked;
+        updateClocks();
+      });
+
+      // Calendar Navigation
+      document.getElementById('prevMonthBtn').addEventListener('click', () => {
+        currentDateObj.setMonth(currentDateObj.getMonth() - 1);
+        renderCalendar(currentDateObj);
+      });
+
+      document.getElementById('nextMonthBtn').addEventListener('click', () => {
+        currentDateObj.setMonth(currentDateObj.getMonth() + 1);
+        renderCalendar(currentDateObj);
+      });
+
+      document.getElementById('todayBtn').addEventListener('click', () => {
+        currentDateObj = new Date();
+        renderCalendar(currentDateObj);
+      });
+
+      // Theme Toggle (Dark/Light)
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const themeLabel = document.getElementById('themeLabel');
+
+      themeToggleBtn.addEventListener('click', () => {
+        const isDark = document.documentElement.classList.toggle('dark');
+        themeLabel.textContent = isDark ? 'Dark' : 'Light';
+      });
+    }
+
+    // Initialize Dashboard
+    window.onload = function() {
+      updateClocks();
+      renderCalendar(currentDateObj);
+      setupEventListeners();
+      
+      // Update clocks every second
+      setInterval(updateClocks, 1000);
+    };
+  </script>
+</body>
+</html>
