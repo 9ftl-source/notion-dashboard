@@ -11,7 +11,7 @@
   <!-- Inter Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
@@ -44,200 +44,205 @@
   <style>
     /* Custom Scrollbar for Notion styling */
     ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
     }
     ::-webkit-scrollbar-track {
       background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: rgba(128, 128, 128, 0.3);
-      border-radius: 3px;
+      background: rgba(128, 128, 128, 0.35);
+      border-radius: 4px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: rgba(128, 128, 128, 0.5);
+      background: rgba(128, 128, 128, 0.6);
     }
     body {
       font-family: 'Inter', sans-serif;
       user-select: none;
     }
     .clock-glow-georgia {
-      box-shadow: 0 0 15px rgba(224, 62, 62, 0.15);
+      box-shadow: 0 0 20px rgba(224, 62, 62, 0.2);
     }
     .dark .clock-glow-georgia {
-      box-shadow: 0 0 20px rgba(224, 62, 62, 0.25);
+      box-shadow: 0 0 25px rgba(224, 62, 62, 0.3);
     }
   </style>
 </head>
 
-<body class="bg-notion-bgLight dark:bg-notion-bgDark text-notion-textLight dark:text-notion-textDark transition-colors duration-200 p-3 sm:p-5 min-h-screen">
+<body class="bg-notion-bgLight dark:bg-notion-bgDark text-notion-textLight dark:text-notion-textDark transition-colors duration-200 p-4 sm:p-6 lg:p-8 min-h-screen flex flex-col justify-between">
 
-  <div class="max-w-7xl mx-auto space-y-4">
+  <div class="max-w-7xl mx-auto w-full space-y-6">
     
     <!-- HEADER BAR WITH CONTROLS -->
-    <header class="flex flex-wrap items-center justify-between gap-3 px-3 py-2 bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark shadow-sm">
-      <div class="flex items-center space-x-2">
-        <span class="text-xl">🦸</span>
-        <h1 class="text-base sm:text-lg font-bold tracking-tight">Agent Hub & World Clock</h1>
-        <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-red-100 text-red-700 dark:bg-red-950/80 dark:text-red-300 border border-red-200 dark:border-red-900">
+    <header class="flex flex-wrap items-center justify-between gap-4 px-5 py-4 bg-notion-cardLight dark:bg-notion-cardDark rounded-2xl border border-notion-borderLight dark:border-notion-borderDark shadow-sm">
+      <div class="flex items-center space-x-3">
+        <span class="text-2xl">🦸</span>
+        <div>
+          <h1 class="text-lg sm:text-xl font-bold tracking-tight text-neutral-900 dark:text-white flex items-center gap-2">
+            Agent Support Workspace Hub
+          </h1>
+          <p class="text-xs text-neutral-500 dark:text-neutral-400">Live Time Sync & Knowledge Base Access</p>
+        </div>
+        <span class="hidden sm:inline-block px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700 dark:bg-red-950/80 dark:text-red-300 border border-red-200 dark:border-red-900">
           Support Operations
         </span>
       </div>
 
-      <div class="flex items-center space-x-2 sm:space-x-4">
+      <div class="flex items-center space-x-3 sm:space-x-4">
         <!-- Seconds Toggle -->
-        <label class="flex items-center cursor-pointer text-xs font-medium space-x-1.5 bg-neutral-100 dark:bg-neutral-800 px-2.5 py-1 rounded-lg border border-notion-borderLight dark:border-notion-borderDark">
+        <label class="flex items-center cursor-pointer text-xs font-medium space-x-2 bg-neutral-100 dark:bg-neutral-800 px-3 py-1.5 rounded-xl border border-notion-borderLight dark:border-notion-borderDark">
           <input type="checkbox" id="toggleSeconds" class="sr-only peer" checked>
-          <div class="w-7 h-4 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:peer-checked:bg-blue-600 relative"></div>
-          <span class="text-gray-600 dark:text-gray-300 text-[11px]">Show Seconds</span>
+          <div class="w-8 h-4 bg-gray-300 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all dark:peer-checked:bg-blue-600 relative"></div>
+          <span class="text-gray-600 dark:text-gray-300 text-xs">Show Seconds</span>
         </label>
 
         <!-- Theme Toggle -->
-        <button id="themeToggleBtn" class="p-1.5 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs flex items-center gap-1.5 transition">
+        <button id="themeToggleBtn" class="px-3 py-1.5 rounded-xl border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 text-xs flex items-center gap-2 transition font-medium">
           <i class="fa-solid fa-moon dark:hidden text-gray-600"></i>
           <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
-          <span class="hidden sm:inline text-[11px] font-medium" id="themeLabel">Dark</span>
+          <span id="themeLabel">Dark Theme</span>
         </button>
       </div>
     </header>
 
     <!-- SECTION 1: WORLD CLOCK STRIP (WIDE HORIZONTAL WIDGET) -->
-    <section class="bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark p-3 sm:p-4 shadow-sm">
-      <div class="flex items-center justify-between mb-3 px-1">
+    <section class="bg-notion-cardLight dark:bg-notion-cardDark rounded-2xl border border-notion-borderLight dark:border-notion-borderDark p-5 sm:p-6 shadow-sm">
+      <div class="flex items-center justify-between mb-4 px-1">
         <div class="flex items-center space-x-2">
-          <i class="fa-solid fa-globe text-blue-500 text-sm"></i>
-          <h2 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
+          <i class="fa-solid fa-globe text-blue-500 text-base"></i>
+          <h2 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
             Global Time Sync — Tbilisi vs. US Timezones
           </h2>
         </div>
-        <div class="text-[11px] text-gray-400 dark:text-gray-500 font-mono flex items-center gap-1">
-          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse"></span> Live DST Sync
+        <div class="text-xs text-gray-400 dark:text-gray-500 font-mono flex items-center gap-1.5">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block animate-pulse"></span> Automatic DST Sync
         </div>
       </div>
 
-      <!-- Grid of 5 Timezone Clocks -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+      <!-- Grid of 5 Timezone Clocks - EXPANDED HEIGHT & LARGER FONTS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         
         <!-- 1. GEORGIA - TBILISI (HOME ANCHOR) -->
-        <div class="relative overflow-hidden bg-gradient-to-b from-red-500/10 via-transparent to-transparent dark:from-red-950/20 rounded-xl p-3 border-2 border-red-500/40 dark:border-red-500/50 clock-glow-georgia flex flex-col justify-between">
+        <div class="relative overflow-hidden bg-gradient-to-b from-red-500/10 via-transparent to-transparent dark:from-red-950/30 rounded-2xl p-4 border-2 border-red-500/50 dark:border-red-500/60 clock-glow-georgia flex flex-col justify-between min-h-[150px]">
           <div class="flex items-start justify-between">
             <div>
               <div class="flex items-center gap-1.5">
-                <span class="text-base">🇬🇪</span>
-                <span class="font-bold text-xs tracking-wide text-red-600 dark:text-red-400 uppercase">GEORGIA</span>
+                <span class="text-lg">🇬🇪</span>
+                <span class="font-extrabold text-xs tracking-wide text-red-600 dark:text-red-400 uppercase">GEORGIA</span>
               </div>
-              <p class="text-[11px] font-semibold text-neutral-600 dark:text-neutral-300">Tbilisi</p>
+              <p class="text-xs font-bold text-neutral-700 dark:text-neutral-200">Tbilisi</p>
             </div>
-            <span class="px-1.5 py-0.5 text-[10px] font-bold rounded bg-red-500 text-white tracking-wider">HOME</span>
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded-md bg-red-500 text-white tracking-wider">HOME</span>
           </div>
-          <div class="my-2 text-center">
-            <div id="clock-georgia" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-900 dark:text-white">
+          <div class="my-3 text-center">
+            <div id="clock-georgia" class="text-3xl sm:text-4xl font-mono font-bold tracking-tight text-neutral-900 dark:text-white">
               --:--:--
             </div>
           </div>
-          <div class="pt-2 border-t border-red-200/50 dark:border-red-900/40 flex items-center justify-between text-[11px]">
-            <span id="date-georgia" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
-            <span class="font-mono text-[10px] font-bold text-red-600 dark:text-red-400">UTC+4</span>
+          <div class="pt-2 border-t border-red-200/60 dark:border-red-900/50 flex items-center justify-between text-xs">
+            <span id="date-georgia" class="text-neutral-600 dark:text-neutral-300 font-medium truncate">---</span>
+            <span class="font-mono text-[11px] font-bold text-red-600 dark:text-red-400">UTC+4</span>
           </div>
         </div>
 
         <!-- 2. NEW YORK (EST/EDT) -->
-        <div class="bg-neutral-50 dark:bg-neutral-900/60 rounded-xl p-3 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition">
+        <div class="bg-neutral-50 dark:bg-neutral-900/70 rounded-2xl p-4 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition min-h-[150px]">
           <div class="flex items-start justify-between">
             <div>
               <div class="flex items-center gap-1.5">
-                <span class="text-base">🇺🇸</span>
-                <span class="font-bold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">NEW YORK</span>
+                <span class="text-lg">🇺🇸</span>
+                <span class="font-extrabold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">NEW YORK</span>
               </div>
-              <p class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">Eastern Time</p>
+              <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">Eastern Time</p>
             </div>
-            <span id="offset-ny" class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+            <span id="offset-ny" class="px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
               --h
             </span>
           </div>
-          <div class="my-2 text-center">
-            <div id="clock-ny" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
+          <div class="my-3 text-center">
+            <div id="clock-ny" class="text-3xl sm:text-4xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
               --:--:--
             </div>
           </div>
-          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-[11px]">
+          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-xs">
             <span id="date-ny" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
-            <span id="code-ny" class="font-mono text-[10px] text-neutral-400">ET</span>
+            <span id="code-ny" class="font-mono text-[11px] text-neutral-400 font-semibold">ET</span>
           </div>
         </div>
 
         <!-- 3. CHICAGO (CST/CDT) -->
-        <div class="bg-neutral-50 dark:bg-neutral-900/60 rounded-xl p-3 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition">
+        <div class="bg-neutral-50 dark:bg-neutral-900/70 rounded-2xl p-4 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition min-h-[150px]">
           <div class="flex items-start justify-between">
             <div>
               <div class="flex items-center gap-1.5">
-                <span class="text-base">🇺🇸</span>
-                <span class="font-bold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">CHICAGO</span>
+                <span class="text-lg">🇺🇸</span>
+                <span class="font-extrabold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">CHICAGO</span>
               </div>
-              <p class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">Central Time</p>
+              <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">Central Time</p>
             </div>
-            <span id="offset-chicago" class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+            <span id="offset-chicago" class="px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
               --h
             </span>
           </div>
-          <div class="my-2 text-center">
-            <div id="clock-chicago" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
+          <div class="my-3 text-center">
+            <div id="clock-chicago" class="text-3xl sm:text-4xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
               --:--:--
             </div>
           </div>
-          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-[11px]">
+          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-xs">
             <span id="date-chicago" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
-            <span id="code-chicago" class="font-mono text-[10px] text-neutral-400">CT</span>
+            <span id="code-chicago" class="font-mono text-[11px] text-neutral-400 font-semibold">CT</span>
           </div>
         </div>
 
         <!-- 4. DENVER (MST/MDT) -->
-        <div class="bg-neutral-50 dark:bg-neutral-900/60 rounded-xl p-3 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition">
+        <div class="bg-neutral-50 dark:bg-neutral-900/70 rounded-2xl p-4 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition min-h-[150px]">
           <div class="flex items-start justify-between">
             <div>
               <div class="flex items-center gap-1.5">
-                <span class="text-base">🇺🇸</span>
-                <span class="font-bold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">DENVER</span>
+                <span class="text-lg">🇺🇸</span>
+                <span class="font-extrabold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">DENVER</span>
               </div>
-              <p class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">Mountain Time</p>
+              <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">Mountain Time</p>
             </div>
-            <span id="offset-denver" class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+            <span id="offset-denver" class="px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
               --h
             </span>
           </div>
-          <div class="my-2 text-center">
-            <div id="clock-denver" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
+          <div class="my-3 text-center">
+            <div id="clock-denver" class="text-3xl sm:text-4xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
               --:--:--
             </div>
           </div>
-          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-[11px]">
+          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-xs">
             <span id="date-denver" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
-            <span id="code-denver" class="font-mono text-[10px] text-neutral-400">MT</span>
+            <span id="code-denver" class="font-mono text-[11px] text-neutral-400 font-semibold">MT</span>
           </div>
         </div>
 
         <!-- 5. LOS ANGELES (PST/PDT) -->
-        <div class="bg-neutral-50 dark:bg-neutral-900/60 rounded-xl p-3 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition">
+        <div class="bg-neutral-50 dark:bg-neutral-900/70 rounded-2xl p-4 border border-notion-borderLight dark:border-notion-borderDark flex flex-col justify-between hover:border-gray-400 dark:hover:border-gray-600 transition min-h-[150px]">
           <div class="flex items-start justify-between">
             <div>
               <div class="flex items-center gap-1.5">
-                <span class="text-base">🇺🇸</span>
-                <span class="font-bold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">LOS ANGELES</span>
+                <span class="text-lg">🇺🇸</span>
+                <span class="font-extrabold text-xs tracking-wide text-neutral-800 dark:text-neutral-200 uppercase">LOS ANGELES</span>
               </div>
-              <p class="text-[11px] font-medium text-neutral-500 dark:text-neutral-400">Pacific Time</p>
+              <p class="text-xs font-medium text-neutral-500 dark:text-neutral-400">Pacific Time</p>
             </div>
-            <span id="offset-la" class="px-1.5 py-0.5 text-[10px] font-mono rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
+            <span id="offset-la" class="px-2 py-0.5 text-[10px] font-mono font-semibold rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300">
               --h
             </span>
           </div>
-          <div class="my-2 text-center">
-            <div id="clock-la" class="text-2xl sm:text-3xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
+          <div class="my-3 text-center">
+            <div id="clock-la" class="text-3xl sm:text-4xl font-mono font-bold tracking-tight text-neutral-800 dark:text-neutral-100">
               --:--:--
             </div>
           </div>
-          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-[11px]">
+          <div class="pt-2 border-t border-neutral-200 dark:border-neutral-800 flex items-center justify-between text-xs">
             <span id="date-la" class="text-neutral-500 dark:text-neutral-400 font-medium truncate">---</span>
-            <span id="code-la" class="font-mono text-[10px] text-neutral-400">PT</span>
+            <span id="code-la" class="font-mono text-[11px] text-neutral-400 font-semibold">PT</span>
           </div>
         </div>
 
@@ -245,152 +250,191 @@
     </section>
 
     <!-- SECTION 2: DUAL COLUMN - CALENDAR & AGENT WORKSPACE HUB -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
       <!-- LEFT COLUMN: MINI CALENDAR & SHIFT SUMMARY (4 COLS) -->
-      <div class="lg:col-span-4 bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark p-4 shadow-sm flex flex-col justify-between">
+      <div class="lg:col-span-4 bg-notion-cardLight dark:bg-notion-cardDark rounded-2xl border border-notion-borderLight dark:border-notion-borderDark p-5 sm:p-6 shadow-sm flex flex-col justify-between min-h-[420px]">
         <div>
-          <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center justify-between mb-4">
             <div class="flex items-center space-x-2">
-              <i class="fa-regular fa-calendar-days text-red-500"></i>
-              <h3 id="calendarMonthYear" class="text-xs font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-200">
+              <i class="fa-regular fa-calendar-days text-red-500 text-base"></i>
+              <h3 id="calendarMonthYear" class="text-sm font-bold uppercase tracking-wider text-neutral-800 dark:text-neutral-200">
                 September 2026
               </h3>
             </div>
             <div class="flex items-center space-x-1">
-              <button id="prevMonthBtn" class="p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white transition">
+              <button id="prevMonthBtn" class="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-white transition rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800">
                 <i class="fa-solid fa-chevron-left text-xs"></i>
               </button>
-              <button id="todayBtn" class="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 transition">
+              <button id="todayBtn" class="text-xs font-semibold px-2 py-1 rounded-md bg-neutral-200 dark:bg-neutral-800 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition">
                 Today
               </button>
-              <button id="nextMonthBtn" class="p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white transition">
+              <button id="nextMonthBtn" class="p-1.5 text-gray-400 hover:text-gray-700 dark:hover:text-white transition rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800">
                 <i class="fa-solid fa-chevron-right text-xs"></i>
               </button>
             </div>
           </div>
 
           <!-- Calendar Grid Header -->
-          <div class="grid grid-cols-7 text-center text-[10px] font-bold text-gray-400 mb-1">
+          <div class="grid grid-cols-7 text-center text-xs font-bold text-gray-400 mb-2">
             <span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span class="text-red-400">Sa</span><span class="text-red-400">Su</span>
           </div>
 
           <!-- Calendar Days Grid -->
-          <div id="calendarDays" class="grid grid-cols-7 text-center text-xs gap-y-1">
+          <div id="calendarDays" class="grid grid-cols-7 text-center text-sm gap-y-1.5">
             <!-- JS populated -->
           </div>
         </div>
 
         <!-- Shift & Day Info Footer -->
-        <div class="mt-4 pt-3 border-t border-notion-borderLight dark:border-notion-borderDark bg-neutral-50 dark:bg-neutral-900/40 p-2.5 rounded-lg text-xs space-y-1">
-          <div class="flex justify-between items-center text-[11px]">
-            <span class="text-neutral-500">Current Week:</span>
-            <span id="weekNumberDisplay" class="font-mono font-semibold text-blue-600 dark:text-blue-400">Week --</span>
+        <div class="mt-6 pt-4 border-t border-notion-borderLight dark:border-notion-borderDark bg-neutral-50 dark:bg-neutral-900/50 p-3.5 rounded-xl text-xs space-y-2">
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-neutral-500 dark:text-neutral-400 font-medium">Current Calendar Week:</span>
+            <span id="weekNumberDisplay" class="font-mono font-bold text-blue-600 dark:text-blue-400">Week --</span>
           </div>
-          <div class="flex justify-between items-center text-[11px]">
-            <span class="text-neutral-500">Tbilisi Local Day:</span>
-            <span id="tbilisiDayDisplay" class="font-medium text-neutral-800 dark:text-neutral-200">--</span>
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-neutral-500 dark:text-neutral-400 font-medium">Tbilisi Local Day:</span>
+            <span id="tbilisiDayDisplay" class="font-semibold text-neutral-800 dark:text-neutral-200">--</span>
           </div>
         </div>
       </div>
 
       <!-- RIGHT COLUMN: AGENT WORKSPACE NAV & QUICK TOOLS (8 COLS) -->
-      <div class="lg:col-span-8 space-y-4">
+      <div class="lg:col-span-8 space-y-6">
 
-        <!-- WORKSPACE CARDS GRID -->
-        <div class="bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark p-4 shadow-sm">
-          <h3 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3 flex items-center gap-2">
+        <!-- WORKSPACE CARDS GRID WITH UPDATED EXACT NOTION LINKS -->
+        <div class="bg-notion-cardLight dark:bg-notion-cardDark rounded-2xl border border-notion-borderLight dark:border-notion-borderDark p-5 sm:p-6 shadow-sm">
+          <h3 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4 flex items-center gap-2">
             <i class="fa-solid fa-book-bookmark text-amber-500"></i> Support Knowledge Base & Links
           </h3>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-            <!-- Card 1: Updates & Procedures -->
-            <div class="p-3 bg-neutral-50 dark:bg-neutral-900/50 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:border-blue-400 dark:hover:border-blue-500/50 transition">
-              <div class="flex items-center space-x-2 text-xs font-semibold mb-1">
+            <!-- Card 1: Updates & Procedures + Important Announcements -->
+            <div class="p-4 bg-neutral-50 dark:bg-neutral-900/60 rounded-xl border border-notion-borderLight dark:border-notion-borderDark hover:border-amber-500/50 transition space-y-2">
+              <div class="flex items-center space-x-2 text-sm font-bold">
                 <span class="text-amber-500">📌</span>
-                <span class="text-neutral-800 dark:text-neutral-200">Updates & Procedures — MG</span>
+                <span class="text-neutral-900 dark:text-neutral-100">Updates & Announcements</span>
               </div>
-              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 pl-6">
-                Important Announcements & team notifications.
-              </p>
+              <div class="space-y-1.5 pl-6 pt-1">
+                <a href="https://app.notion.com/p/Updates-and-Procedures-MG-bc889bca4f3b82b59bfe0164537e4a98" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-amber-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>Updates and Procedures - MG</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-amber-500"></i>
+                </a>
+                <a href="https://app.notion.com/p/Important-Announcements-3d589bca4f3b808cb26fddd15295446e" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-amber-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>Important Announcements</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-amber-500"></i>
+                </a>
+              </div>
             </div>
 
             <!-- Card 2: Passwords, QA, Telegram -->
-            <div class="p-3 bg-neutral-50 dark:bg-neutral-900/50 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:border-blue-400 dark:hover:border-blue-500/50 transition">
-              <div class="flex items-center space-x-2 text-xs font-semibold mb-1">
+            <div class="p-4 bg-neutral-50 dark:bg-neutral-900/60 rounded-xl border border-notion-borderLight dark:border-notion-borderDark hover:border-blue-500/50 transition space-y-2">
+              <div class="flex items-center space-x-2 text-sm font-bold">
                 <span class="text-blue-500">🔑</span>
-                <span class="text-neutral-800 dark:text-neutral-200">Access & Channels</span>
+                <span class="text-neutral-900 dark:text-neutral-100">Access & Channels</span>
               </div>
-              <div class="flex flex-wrap gap-1.5 pl-6 pt-1">
-                <span class="text-[10px] px-2 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 font-medium">User & Passwords</span>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 font-medium">Q&A</span>
-                <span class="text-[10px] px-2 py-0.5 rounded bg-sky-100 dark:bg-sky-950/80 text-sky-700 dark:text-sky-300 font-medium"><i class="fa-brands fa-telegram mr-1"></i>Telegram</span>
+              <div class="space-y-1.5 pl-6 pt-1">
+                <a href="https://app.notion.com/p/Username-Passwords-d0b89bca4f3b836b839981d661ac58c9" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-blue-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>Username & Passwords</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-blue-500"></i>
+                </a>
+                <a href="https://app.notion.com/p/Questions-and-Answers-f8689bca4f3b82539dfb015c4b332f2c" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-blue-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>Questions and Answers</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-blue-500"></i>
+                </a>
               </div>
             </div>
 
             <!-- Card 3: Quality & Etiquette -->
-            <div class="p-3 bg-neutral-50 dark:bg-neutral-900/50 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:border-blue-400 dark:hover:border-blue-500/50 transition">
-              <div class="flex items-center space-x-2 text-xs font-semibold mb-1">
+            <div class="p-4 bg-neutral-50 dark:bg-neutral-900/60 rounded-xl border border-notion-borderLight dark:border-notion-borderDark hover:border-emerald-500/50 transition space-y-2">
+              <div class="flex items-center space-x-2 text-sm font-bold">
                 <span class="text-emerald-500">💡</span>
-                <span class="text-neutral-800 dark:text-neutral-200">Soft Skills & Quality</span>
+                <span class="text-neutral-900 dark:text-neutral-100">Soft Skills & Quality</span>
               </div>
-              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 pl-6">
-                The Power of Soft Skills • Chat Quality Aspects • Workstation Etiquette
-              </p>
+              <div class="space-y-1.5 pl-6 pt-1">
+                <a href="https://app.notion.com/p/The-Power-of-Soft-Skills-3d589bca4f3b80f1bbc2f53bf12be7bf" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-emerald-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>The Power of Soft Skills</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-500"></i>
+                </a>
+                <a href="https://app.notion.com/p/Chat-Quality-Aspects-and-Explanations-3d589bca4f3b806dadabf1d24f0dafd6" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-emerald-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>Chat Quality Aspects & Explanations</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-500"></i>
+                </a>
+                <a href="https://app.notion.com/p/Workstation-Etiquette-3d589bca4f3b8061bde2ff4c3a0521d9" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-emerald-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>Workstation Etiquette</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-500"></i>
+                </a>
+              </div>
             </div>
 
             <!-- Card 4: SOP / Rules & Back-End Admin -->
-            <div class="p-3 bg-neutral-50 dark:bg-neutral-900/50 rounded-lg border border-notion-borderLight dark:border-notion-borderDark hover:border-blue-400 dark:hover:border-blue-500/50 transition">
-              <div class="flex items-center space-x-2 text-xs font-semibold mb-1">
+            <div class="p-4 bg-neutral-50 dark:bg-neutral-900/60 rounded-xl border border-notion-borderLight dark:border-notion-borderDark hover:border-purple-500/50 transition space-y-2">
+              <div class="flex items-center space-x-2 text-sm font-bold">
                 <span class="text-purple-500">⚙️</span>
-                <span class="text-neutral-800 dark:text-neutral-200">SOP & Admin Systems</span>
+                <span class="text-neutral-900 dark:text-neutral-100">SOP & Admin Systems</span>
               </div>
-              <p class="text-[11px] text-neutral-500 dark:text-neutral-400 pl-6">
-                KB-MC-PR Rules • Management Platform System Guide
-              </p>
+              <div class="space-y-1.5 pl-6 pt-1">
+                <a href="https://app.notion.com/p/Rules-and-Processes-KB-MC-PR-4e689bca4f3b8246a08d015943c502cd" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-purple-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>Rules & Processes : KB-MC-PR</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-purple-500"></i>
+                </a>
+                <a href="https://app.notion.com/p/Back-End-Management-Platform-System-Guide-60489bca4f3b82ac9585814d31bcf55d" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-purple-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>Back End "Management Platform" Guide</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-purple-500"></i>
+                </a>
+              </div>
             </div>
 
           </div>
         </div>
 
         <!-- QUICK TRANSLATIONS & AGENT TOOLS STRIP -->
-        <div class="bg-notion-cardLight dark:bg-notion-cardDark rounded-xl border border-notion-borderLight dark:border-notion-borderDark p-3 shadow-sm">
-          <div class="flex items-center justify-between mb-2">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 flex items-center gap-1.5">
+        <div class="bg-notion-cardLight dark:bg-notion-cardDark rounded-2xl border border-notion-borderLight dark:border-notion-borderDark p-4 shadow-sm">
+          <div class="flex items-center justify-between mb-3 px-1">
+            <h4 class="text-xs sm:text-sm font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 flex items-center gap-2">
               <i class="fa-solid fa-screwdriver-wrench text-indigo-500"></i> Quick Agent Tools
             </h4>
-            <span class="text-[10px] text-neutral-400">One-click external links</span>
+            <span class="text-xs text-neutral-400">One-click external extensions & tools</span>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             
             <!-- Tool 1: DeepL -->
             <a href="https://www.deepl.com/translator" target="_blank" rel="noopener noreferrer" 
-               class="flex items-center justify-between p-2 rounded-lg bg-neutral-50 dark:bg-neutral-900/70 border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-xs group">
-              <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-language text-blue-500"></i>
-                <span class="font-medium">DeepL Translator</span>
+               class="flex items-center justify-between p-3 rounded-xl bg-neutral-50 dark:bg-neutral-900/70 border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:border-indigo-400 transition text-xs font-medium group">
+              <div class="flex items-center space-x-2.5">
+                <i class="fa-solid fa-language text-blue-500 text-sm"></i>
+                <span class="text-neutral-800 dark:text-neutral-200">DeepL Translator</span>
               </div>
               <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-blue-500"></i>
             </a>
 
-            <!-- Tool 2: OCR Extract Text -->
-            <a href="https://brandfolder.com/workbench/extract-text-from-image" target="_blank" rel="noopener noreferrer"
-               class="flex items-center justify-between p-2 rounded-lg bg-neutral-50 dark:bg-neutral-900/70 border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-xs group">
-              <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-file-lines text-emerald-500"></i>
-                <span class="font-medium">Extract Image Text</span>
+            <!-- Tool 2: OCR Extract Text (DevExt Hub Extension) -->
+            <a href="https://www.devexthub.com/" target="_blank" rel="noopener noreferrer"
+               class="flex items-center justify-between p-3 rounded-xl bg-neutral-50 dark:bg-neutral-900/70 border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:border-indigo-400 transition text-xs font-medium group">
+              <div class="flex items-center space-x-2.5">
+                <i class="fa-solid fa-file-lines text-emerald-500 text-sm"></i>
+                <span class="text-neutral-800 dark:text-neutral-200">Extract Text from Image</span>
               </div>
               <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-500"></i>
             </a>
 
             <!-- Tool 3: Immersive Translate -->
             <a href="https://immersive-translate.com/" target="_blank" rel="noopener noreferrer"
-               class="flex items-center justify-between p-2 rounded-lg bg-neutral-50 dark:bg-neutral-900/70 border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-xs group">
-              <div class="flex items-center space-x-2">
-                <i class="fa-solid fa-globe text-purple-500"></i>
-                <span class="font-medium">Immersive Translate</span>
+               class="flex items-center justify-between p-3 rounded-xl bg-neutral-50 dark:bg-neutral-900/70 border border-notion-borderLight dark:border-notion-borderDark hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:border-indigo-400 transition text-xs font-medium group">
+              <div class="flex items-center space-x-2.5">
+                <i class="fa-solid fa-globe text-purple-500 text-sm"></i>
+                <span class="text-neutral-800 dark:text-neutral-200">Immersive Translate</span>
               </div>
               <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-purple-500"></i>
             </a>
@@ -508,7 +552,7 @@
       // 1. Fill previous month's trailing days
       for (let i = startDay - 1; i >= 0; i--) {
         const dayDiv = document.createElement('div');
-        dayDiv.className = 'py-1 text-gray-300 dark:text-gray-700 font-normal';
+        dayDiv.className = 'py-1.5 text-gray-300 dark:text-gray-700 font-normal';
         dayDiv.textContent = prevMonthLastDay - i;
         calendarDaysContainer.appendChild(dayDiv);
       }
@@ -519,9 +563,9 @@
         const isToday = isCurrentMonth && today.getDate() === day;
 
         if (isToday) {
-          dayDiv.className = 'py-1 font-bold rounded-full bg-red-500 text-white shadow-sm';
+          dayDiv.className = 'py-1.5 font-bold rounded-full bg-red-500 text-white shadow-md';
         } else {
-          dayDiv.className = 'py-1 font-medium hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded transition text-neutral-700 dark:text-neutral-300';
+          dayDiv.className = 'py-1.5 font-medium hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded-lg transition text-neutral-700 dark:text-neutral-300';
         }
         dayDiv.textContent = day;
         calendarDaysContainer.appendChild(dayDiv);
@@ -573,7 +617,7 @@
 
       themeToggleBtn.addEventListener('click', () => {
         const isDark = document.documentElement.classList.toggle('dark');
-        themeLabel.textContent = isDark ? 'Dark' : 'Light';
+        themeLabel.textContent = isDark ? 'Dark Theme' : 'Light Theme';
       });
     }
 
