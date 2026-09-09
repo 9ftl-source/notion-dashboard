@@ -90,6 +90,59 @@
       </div>
 
       <div class="flex items-center space-x-3 sm:space-x-4">
+
+        <!-- USA STATE TIME SEARCH -->
+        <div class="relative" id="stateSearchContainer">
+          <div class="flex items-center bg-neutral-100 dark:bg-neutral-800 rounded-xl border border-notion-borderLight dark:border-notion-borderDark px-3 py-1.5">
+            <i class="fa-solid fa-magnifying-glass text-gray-400 text-xs mr-2"></i>
+            <input
+              type="text"
+              id="stateSearchInput"
+              placeholder="Search US state..."
+              autocomplete="off"
+              class="w-32 sm:w-40 bg-transparent outline-none text-xs font-medium text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500"
+            >
+          </div>
+
+          <!-- State Search Results -->
+          <div
+            id="stateSearchResults"
+            class="hidden absolute right-0 top-full mt-2 w-64 max-h-72 overflow-y-auto z-50 bg-white dark:bg-neutral-800 border border-notion-borderLight dark:border-notion-borderDark rounded-xl shadow-lg"
+          ></div>
+
+          <!-- Selected State Time -->
+          <div
+            id="stateTimeDisplay"
+            class="hidden absolute right-0 top-full mt-2 w-64 z-40 bg-white dark:bg-neutral-800 border border-notion-borderLight dark:border-notion-borderDark rounded-xl shadow-lg p-3"
+          >
+            <div class="flex items-center justify-between">
+              <div>
+                <div id="selectedStateName" class="text-xs font-bold text-neutral-800 dark:text-neutral-200"></div>
+                <div id="selectedStateZone" class="text-[10px] text-gray-400 dark:text-gray-500"></div>
+              </div>
+              <button
+                id="closeStateTime"
+                class="text-gray-400 hover:text-gray-700 dark:hover:text-white"
+                aria-label="Close"
+              >
+                <i class="fa-solid fa-xmark text-xs"></i>
+              </button>
+            </div>
+            <div
+              id="selectedStateClock"
+              class="mt-2 text-xl font-mono font-bold text-neutral-900 dark:text-white"
+            >
+              --:--:--
+            </div>
+            <div
+              id="selectedStateDate"
+              class="text-[10px] text-gray-500 dark:text-gray-400"
+            >
+              ---
+            </div>
+          </div>
+        </div>
+        
         <!-- Seconds Toggle -->
         <label class="flex items-center cursor-pointer text-xs font-medium space-x-2 bg-neutral-100 dark:bg-neutral-800 px-3 py-1.5 rounded-xl border border-notion-borderLight dark:border-notion-borderDark">
           <input type="checkbox" id="toggleSeconds" class="sr-only peer" checked>
@@ -317,12 +370,12 @@
                 <span class="text-neutral-900 dark:text-neutral-100">Updates & Announcements</span>
               </div>
               <div class="space-y-1.5 pl-6 pt-1">
-                <a href="https://app.notion.com/p/Updates-and-Procedures-MG-bc889bca4f3b82b59bfe0164537e4a98" target="_blank" rel="noopener noreferrer"
+                <a href="https://app.notion.com/p/Updates-and-Procedures-MG-bc889bca4f3b82b59bfe0164537e4a98?source=copy_link" target="_blank" rel="noopener noreferrer"
                    class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-amber-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
                   <span>Updates and Procedures - MG</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-amber-500"></i>
                 </a>
-                <a href="https://app.notion.com/p/Important-Announcements-3d589bca4f3b808cb26fddd15295446e" target="_blank" rel="noopener noreferrer"
+                <a href="https://app.notion.com/p/Important-Announcements-3d589bca4f3b808cb26fddd15295446e?source=copy_link" target="_blank" rel="noopener noreferrer"
                    class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-amber-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
                   <span>Important Announcements</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-amber-500"></i>
@@ -337,14 +390,19 @@
                 <span class="text-neutral-900 dark:text-neutral-100">Access & Channels</span>
               </div>
               <div class="space-y-1.5 pl-6 pt-1">
-                <a href="https://app.notion.com/p/Username-Passwords-d0b89bca4f3b836b839981d661ac58c9" target="_blank" rel="noopener noreferrer"
+                <a href="https://app.notion.com/p/Username-Passwords-d0b89bca4f3b836b839981d661ac58c9?source=copy_link" target="_blank" rel="noopener noreferrer"
                    class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-blue-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
                   <span>Username & Passwords</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-blue-500"></i>
                 </a>
-                <a href="https://app.notion.com/p/Questions-and-Answers-f8689bca4f3b82539dfb015c4b332f2c" target="_blank" rel="noopener noreferrer"
+                <a href="https://app.notion.com/p/Questions-and-Answers-f8689bca4f3b82539dfb015c4b332f2c?source=copy_link" target="_blank" rel="noopener noreferrer"
                    class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-blue-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
                   <span>Questions and Answers</span>
+                  <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-blue-500"></i>
+                </a>
+                <a href="https://app.notion.com/p/Telegram-3d589bca4f3b80d5acc9c8c827fcd3da?source=copy_link" target="_blank" rel="noopener noreferrer"
+                   class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-blue-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
+                  <span>Telegram</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-blue-500"></i>
                 </a>
               </div>
@@ -357,17 +415,17 @@
                 <span class="text-neutral-900 dark:text-neutral-100">Soft Skills & Quality</span>
               </div>
               <div class="space-y-1.5 pl-6 pt-1">
-                <a href="https://app.notion.com/p/The-Power-of-Soft-Skills-3d589bca4f3b80f1bbc2f53bf12be7bf" target="_blank" rel="noopener noreferrer"
+                <a href="https://app.notion.com/p/The-Power-of-Soft-Skills-3d589bca4f3b80f1bbc2f53bf12be7bf?source=copy_link" target="_blank" rel="noopener noreferrer"
                    class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-emerald-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
                   <span>The Power of Soft Skills</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-500"></i>
                 </a>
-                <a href="https://app.notion.com/p/Chat-Quality-Aspects-and-Explanations-3d589bca4f3b806dadabf1d24f0dafd6" target="_blank" rel="noopener noreferrer"
+                <a href="https://app.notion.com/p/Chat-Quality-Aspects-and-Explanations-3d589bca4f3b806dadabf1d24f0dafd6?source=copy_link" target="_blank" rel="noopener noreferrer"
                    class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-emerald-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
                   <span>Chat Quality Aspects & Explanations</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-500"></i>
                 </a>
-                <a href="https://app.notion.com/p/Workstation-Etiquette-3d589bca4f3b8061bde2ff4c3a0521d9" target="_blank" rel="noopener noreferrer"
+                <a href="https://app.notion.com/p/Workstation-Etiquette-3d589bca4f3b8061bde2ff4c3a0521d9?source=copy_link" target="_blank" rel="noopener noreferrer"
                    class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-emerald-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
                   <span>Workstation Etiquette</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-emerald-500"></i>
@@ -382,12 +440,12 @@
                 <span class="text-neutral-900 dark:text-neutral-100">SOP & Admin Systems</span>
               </div>
               <div class="space-y-1.5 pl-6 pt-1">
-                <a href="https://app.notion.com/p/Rules-and-Processes-KB-MC-PR-4e689bca4f3b8246a08d015943c502cd" target="_blank" rel="noopener noreferrer"
+                <a href="https://app.notion.com/p/Rules-and-Processes-KB-MC-PR-4e689bca4f3b8246a08d015943c502cd?source=copy_link" target="_blank" rel="noopener noreferrer"
                    class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-purple-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
                   <span>Rules & Processes : KB-MC-PR</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-purple-500"></i>
                 </a>
-                <a href="https://app.notion.com/p/Back-End-Management-Platform-System-Guide-60489bca4f3b82ac9585814d31bcf55d" target="_blank" rel="noopener noreferrer"
+                <a href="https://app.notion.com/p/Back-End-Management-Platform-System-Guide-60489bca4f3b82ac9585814d31bcf55d?source=copy_link" target="_blank" rel="noopener noreferrer"
                    class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 hover:border-purple-400 text-xs font-medium text-neutral-800 dark:text-neutral-200 transition group">
                   <span>Back End "Management Platform" Guide</span>
                   <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-400 group-hover:text-purple-500"></i>
@@ -458,8 +516,45 @@
       { id: 'la', zone: 'America/Los_Angeles', label: 'LOS ANGELES', name: 'Los Angeles' }
     ];
 
+    // USA STATES AVAILABLE IN SEARCH
+    const US_STATES = [
+      { code: 'AL', name: 'Alabama', zone: 'America/Chicago' },
+      { code: 'AK', name: 'Alaska', zone: 'America/Anchorage' },
+      { code: 'AZ', name: 'Arizona', zone: 'America/Phoenix' },
+      { code: 'AR', name: 'Arkansas', zone: 'America/Chicago' },
+      { code: 'CO', name: 'Colorado', zone: 'America/Denver' },
+      { code: 'FL', name: 'Florida', zone: 'America/New_York' },
+      { code: 'GA', name: 'Georgia', zone: 'America/New_York' },
+      { code: 'HI', name: 'Hawaii', zone: 'Pacific/Honolulu' },
+      { code: 'KS', name: 'Kansas', zone: 'America/Chicago' },
+      { code: 'KY', name: 'Kentucky', zone: 'America/New_York' },
+      { code: 'MD', name: 'Maryland', zone: 'America/New_York' },
+      { code: 'MA', name: 'Massachusetts', zone: 'America/New_York' },
+      { code: 'MN', name: 'Minnesota', zone: 'America/Chicago' },
+      { code: 'MO', name: 'Missouri', zone: 'America/Chicago' },
+      { code: 'NE', name: 'Nebraska', zone: 'America/Chicago' },
+      { code: 'NH', name: 'New Hampshire', zone: 'America/New_York' },
+      { code: 'NM', name: 'New Mexico', zone: 'America/Denver' },
+      { code: 'NC', name: 'North Carolina', zone: 'America/New_York' },
+      { code: 'ND', name: 'North Dakota', zone: 'America/Chicago' },
+      { code: 'OH', name: 'Ohio', zone: 'America/New_York' },
+      { code: 'OK', name: 'Oklahoma', zone: 'America/Chicago' },
+      { code: 'OR', name: 'Oregon', zone: 'America/Los_Angeles' },
+      { code: 'PA', name: 'Pennsylvania', zone: 'America/New_York' },
+      { code: 'RI', name: 'Rhode Island', zone: 'America/New_York' },
+      { code: 'SC', name: 'South Carolina', zone: 'America/New_York' },
+      { code: 'SD', name: 'South Dakota', zone: 'America/Chicago' },
+      { code: 'TX', name: 'Texas', zone: 'America/Chicago' },
+      { code: 'UT', name: 'Utah', zone: 'America/Denver' },
+      { code: 'VT', name: 'Vermont', zone: 'America/New_York' },
+      { code: 'VA', name: 'Virginia', zone: 'America/New_York' },
+      { code: 'WI', name: 'Wisconsin', zone: 'America/Chicago' },
+      { code: 'WY', name: 'Wyoming', zone: 'America/Denver' }
+    ];
+
     let showSeconds = true;
-    let currentDateObj = new Date(); // Anchor date for calendar
+    let currentDateObj = new Date();
+    let selectedState = null;
 
     function updateClocks() {
       const now = new Date();
@@ -478,6 +573,7 @@
             minute: '2-digit',
             ...(showSeconds ? { second: '2-digit' } : {})
           };
+
           const timeFormatter = new Intl.DateTimeFormat('en-GB', timeOptions);
           const formattedTime = timeFormatter.format(now);
 
@@ -488,6 +584,7 @@
             month: 'short',
             day: 'numeric'
           };
+
           const dateFormatter = new Intl.DateTimeFormat('en-US', dateOptions);
           const formattedDate = dateFormatter.format(now);
 
@@ -509,12 +606,17 @@
               offsetElem.textContent = `${diffHours > 0 ? '+' : ''}${diffHours}h`;
             }
 
-            // Get timezone abbreviation (EST/EDT, CST/CDT etc)
+            // Get timezone abbreviation
             const codeElem = document.getElementById(`code-${loc.id}`);
             if (codeElem) {
-              const codeFormatter = new Intl.DateTimeFormat('en-US', { timeZone: loc.zone, timeZoneName: 'short' });
+              const codeFormatter = new Intl.DateTimeFormat('en-US', {
+                timeZone: loc.zone,
+                timeZoneName: 'short'
+              });
+
               const parts = codeFormatter.formatToParts(now);
               const tzPart = parts.find(p => p.type === 'timeZoneName');
+
               if (tzPart) codeElem.textContent = tzPart.value;
             }
           }
@@ -522,6 +624,168 @@
           console.error(`Error updating clock for ${loc.zone}`, e);
         }
       });
+
+      // Update selected state clock
+      updateSelectedStateClock(now);
+    }
+
+    // USA STATE SEARCH
+    function setupStateSearch() {
+      const input = document.getElementById('stateSearchInput');
+      const results = document.getElementById('stateSearchResults');
+      const timeDisplay = document.getElementById('stateTimeDisplay');
+      const closeButton = document.getElementById('closeStateTime');
+
+      function renderResults(searchTerm) {
+        const term = searchTerm.trim().toLowerCase();
+
+        if (!term) {
+          results.classList.add('hidden');
+          return;
+        }
+
+        const matches = US_STATES.filter(state =>
+          state.code.toLowerCase().includes(term) ||
+          state.name.toLowerCase().includes(term)
+        );
+
+        results.innerHTML = '';
+
+        if (matches.length === 0) {
+          results.innerHTML = `
+            <div class="px-3 py-3 text-xs text-gray-400 dark:text-gray-500">
+              No state found
+            </div>
+          `;
+          results.classList.remove('hidden');
+          return;
+        }
+
+        matches.forEach(state => {
+          const item = document.createElement('button');
+
+          item.type = 'button';
+          item.className = `
+            w-full flex items-center justify-between px-3 py-2.5
+            text-left hover:bg-neutral-100 dark:hover:bg-neutral-700
+            transition border-b border-neutral-100 dark:border-neutral-700 last:border-0
+          `;
+
+          item.innerHTML = `
+            <div class="flex items-center gap-2">
+              <span class="font-mono text-[10px] font-bold text-blue-500 dark:text-blue-400">
+                ${state.code}
+              </span>
+              <span class="text-xs font-medium text-neutral-800 dark:text-neutral-200">
+                ${state.name}
+              </span>
+            </div>
+            <i class="fa-solid fa-clock text-[10px] text-gray-400"></i>
+          `;
+
+          item.addEventListener('click', () => {
+            selectState(state);
+          });
+
+          results.appendChild(item);
+        });
+
+        results.classList.remove('hidden');
+      }
+
+      input.addEventListener('input', () => {
+        timeDisplay.classList.add('hidden');
+        renderResults(input.value);
+      });
+
+      input.addEventListener('focus', () => {
+        if (input.value.trim()) {
+          renderResults(input.value);
+        }
+      });
+
+      closeButton.addEventListener('click', () => {
+        timeDisplay.classList.add('hidden');
+        input.value = '';
+        input.focus();
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!document.getElementById('stateSearchContainer').contains(event.target)) {
+          results.classList.add('hidden');
+        }
+      });
+    }
+
+    function selectState(state) {
+      selectedState = state;
+
+      const input = document.getElementById('stateSearchInput');
+      const results = document.getElementById('stateSearchResults');
+      const timeDisplay = document.getElementById('stateTimeDisplay');
+
+      input.value = `${state.code} - ${state.name}`;
+
+      results.classList.add('hidden');
+      timeDisplay.classList.remove('hidden');
+
+      document.getElementById('selectedStateName').textContent =
+        `${state.code} — ${state.name}`;
+
+      const zoneName = getTimeZoneName(state.zone);
+      document.getElementById('selectedStateZone').textContent = zoneName;
+
+      updateSelectedStateClock(new Date());
+    }
+
+    function updateSelectedStateClock(now) {
+      if (!selectedState) return;
+
+      try {
+        const timeOptions = {
+          timeZone: selectedState.zone,
+          hour12: false,
+          hour: '2-digit',
+          minute: '2-digit',
+          ...(showSeconds ? { second: '2-digit' } : {})
+        };
+
+        const timeFormatter = new Intl.DateTimeFormat('en-GB', timeOptions);
+
+        const dateFormatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: selectedState.zone,
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        });
+
+        document.getElementById('selectedStateClock').textContent =
+          timeFormatter.format(now);
+
+        document.getElementById('selectedStateDate').textContent =
+          dateFormatter.format(now);
+      } catch (e) {
+        console.error(`Error updating state clock for ${selectedState.zone}`, e);
+      }
+    }
+
+    function getTimeZoneName(zone) {
+      const now = new Date();
+
+      try {
+        const formatter = new Intl.DateTimeFormat('en-US', {
+          timeZone: zone,
+          timeZoneName: 'long'
+        });
+
+        const parts = formatter.formatToParts(now);
+        const tzPart = parts.find(p => p.type === 'timeZoneName');
+
+        return tzPart ? tzPart.value : zone;
+      } catch (e) {
+        return zone;
+      }
     }
 
     function renderCalendar(date) {
@@ -531,7 +795,9 @@
       // Month name
       const monthNames = ["January", "February", "March", "April", "May", "June", 
                           "July", "August", "September", "October", "November", "December"];
-      document.getElementById('calendarMonthYear').textContent = `${monthNames[month]} ${year}`;
+
+      document.getElementById('calendarMonthYear').textContent =
+        `${monthNames[month]} ${year}`;
 
       const firstDayOfMonth = new Date(year, month, 1);
       const lastDayOfMonth = new Date(year, month + 1, 0);
@@ -547,12 +813,15 @@
       calendarDaysContainer.innerHTML = '';
 
       const today = new Date();
-      const isCurrentMonth = today.getFullYear() === year && today.getMonth() === month;
+      const isCurrentMonth =
+        today.getFullYear() === year && today.getMonth() === month;
 
       // 1. Fill previous month's trailing days
       for (let i = startDay - 1; i >= 0; i--) {
         const dayDiv = document.createElement('div');
-        dayDiv.className = 'py-1.5 text-gray-300 dark:text-gray-700 font-normal';
+        dayDiv.className =
+          'py-1.5 text-gray-300 dark:text-gray-700 font-normal';
+
         dayDiv.textContent = prevMonthLastDay - i;
         calendarDaysContainer.appendChild(dayDiv);
       }
@@ -563,33 +832,53 @@
         const isToday = isCurrentMonth && today.getDate() === day;
 
         if (isToday) {
-          dayDiv.className = 'py-1.5 font-bold rounded-full bg-red-500 text-white shadow-md';
+          dayDiv.className =
+            'py-1.5 font-bold rounded-full bg-red-500 text-white shadow-md';
         } else {
-          dayDiv.className = 'py-1.5 font-medium hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded-lg transition text-neutral-700 dark:text-neutral-300';
+          dayDiv.className =
+            'py-1.5 font-medium hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded-lg transition text-neutral-700 dark:text-neutral-300';
         }
+
         dayDiv.textContent = day;
         calendarDaysContainer.appendChild(dayDiv);
       }
 
       // Calculate Week Number & Local Tbilisi Day Display
       const weekNum = getWeekNumber(date);
-      document.getElementById('weekNumberDisplay').textContent = `Week ${weekNum}`;
+      document.getElementById('weekNumberDisplay').textContent =
+        `Week ${weekNum}`;
       
-      const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long', timeZone: 'Asia/Tbilisi' }).format(today);
-      document.getElementById('tbilisiDayDisplay').textContent = `${dayName}, ${today.getDate()} ${monthNames[today.getMonth()]}`;
+      const dayName = new Intl.DateTimeFormat('en-US', {
+        weekday: 'long',
+        timeZone: 'Asia/Tbilisi'
+      }).format(today);
+
+      document.getElementById('tbilisiDayDisplay').textContent =
+        `${dayName}, ${today.getDate()} ${monthNames[today.getMonth()]}`;
     }
 
     function getWeekNumber(d) {
-      const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      const date = new Date(
+        Date.UTC(d.getFullYear(), d.getMonth(), d.getDate())
+      );
+
       const dayNum = date.getUTCDay() || 7;
+
       date.setUTCDate(date.getUTCDate() + 4 - dayNum);
-      const yearStart = new Date(Date.UTC(date.getUTCFullYear(),0,1));
-      return Math.ceil((((date - yearStart) / 86400000) + 1)/7);
+
+      const yearStart = new Date(
+        Date.UTC(date.getUTCFullYear(), 0, 1)
+      );
+
+      return Math.ceil(
+        (((date - yearStart) / 86400000) + 1) / 7
+      );
     }
 
     function setupEventListeners() {
       // Seconds Toggle
       const toggleSecondsElem = document.getElementById('toggleSeconds');
+
       toggleSecondsElem.addEventListener('change', (e) => {
         showSeconds = e.target.checked;
         updateClocks();
@@ -616,8 +905,11 @@
       const themeLabel = document.getElementById('themeLabel');
 
       themeToggleBtn.addEventListener('click', () => {
-        const isDark = document.documentElement.classList.toggle('dark');
-        themeLabel.textContent = isDark ? 'Dark Theme' : 'Light Theme';
+        const isDark =
+          document.documentElement.classList.toggle('dark');
+
+        themeLabel.textContent =
+          isDark ? 'Dark Theme' : 'Light Theme';
       });
     }
 
@@ -626,6 +918,7 @@
       updateClocks();
       renderCalendar(currentDateObj);
       setupEventListeners();
+      setupStateSearch();
       
       // Update clocks every second
       setInterval(updateClocks, 1000);
